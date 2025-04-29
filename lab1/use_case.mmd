@@ -1,0 +1,18 @@
+flowchart TD
+    actorUser(User)
+    actorAdmin(Administrator)
+    actorCamera(Camera)
+    actorAccessPoint(Access Point)
+
+    Uc1[Uc1: Control Entry]
+    Uc2[Uc2: Control Exit]
+    Uc3[Uc3: Configure Security System]
+
+    actorUser --> Uc1
+    actorUser --> Uc2
+    actorAdmin --> Uc3
+    actorAdmin --> Uc1
+    actorAdmin --> Uc2
+    actorCamera --> Uc1
+    actorAccessPoint --> Uc1
+    actorAccessPoint --> Uc2
