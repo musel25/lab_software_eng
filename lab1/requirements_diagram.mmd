@@ -1,0 +1,31 @@
+requirementDiagram
+    requirement SS11-1 {
+      id: SS11-1
+      text: Two Independent Security Checks
+      type: Constraint
+    }
+    requirement SS11-2 {
+      id: SS11-2
+      text: Employee ID Card Identification - Entry
+      type: Functional
+    }
+    requirement SS11-3 {
+      id: SS11-3
+      text: Employee ID Card Identification - Exit
+      type: Functional
+    }
+    requirement SS11-4 {
+      id: SS11-4
+      text: Biometric Scan
+      type: Functional
+    }
+    requirement SS11-5 {
+      id: SS11-5
+      text: Time Between Two Independent Checks
+      type: Constraint
+    }
+
+    SS11-1 --> SS11-2
+    SS11-1 --> SS11-3
+    SS11-1 --> SS11-4
+    SS11-1 --> SS11-5
