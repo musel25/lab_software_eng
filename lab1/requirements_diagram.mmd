@@ -24,8 +24,187 @@ requirementDiagram
       text: Time Between Two Independent Checks
       type: Constraint
     }
+    requirement SS11-6 {
+      id: SS11-6
+      text: Configure Time Between Two Independent Checks
+      type: Functional
+    }
+    requirement SS11-7 {
+      id: SS11-7
+      text: Three Attempts On Employee ID Entry
+      type: Functional
+    }
+    requirement SS11-8 {
+      id: SS11-8
+      text: Three Attempts On Biometric Data Entry
+      type: Functional
+    }
+    requirement SS11-9 {
+      id: SS11-9
+      text: Three Attempts On Employee ID Exit
+      type: Functional
+    }
+    requirement SS11-10 {
+      id: SS11-10
+      text: Denied Entry Notification
+      type: Functional
+    }
+    requirement SS11-11 {
+      id: SS11-11
+      text: Denied Exit Notification
+      type: Functional
+    }
+    requirement SS11-12 {
+      id: SS11-12
+      text: Alarm - Entry
+      type: Functional
+    }
+    requirement SS11-13 {
+      id: SS11-13
+      text: Alarm - Exit
+      type: Functional
+    }
+    requirement SS11-14 {
+      id: SS11-14
+      text: Disabling User Account
+      type: Functional
+    }
+    requirement SS11-15 {
+      id: SS11-15
+      text: Visualization of ID Card Status - Entry
+      type: Functional
+    }
+    requirement SS11-16 {
+      id: SS11-16
+      text: Visualization of ID Card Status - Exit
+      type: Functional
+    }
+    requirement SS11-17 {
+      id: SS11-17
+      text: Visualization of Biometric Data Check Status
+      type: Functional
+    }
 
+    %% Additional requirements
+    requirement SS111-2 {
+      id: SS111-2
+      text: Authorization of Security Card - Entry
+      type: Functional
+    }
+    requirement SS111-3 {
+      id: SS111-3
+      text: Security Card Renewal
+      type: Functional
+    }
+    requirement SS111-4 {
+      id: SS111-4
+      text: Out of Date Cards - Entry
+      type: Functional
+    }
+    requirement SS111-5 {
+      id: SS111-5
+      text: Out of Date Cards - Exit
+      type: Functional
+    }
+    requirement SS112-1 {
+      id: SS112-1
+      text: Approval of Biometric Data
+      type: Functional
+    }
+    requirement SS112-2 {
+      id: SS112-2
+      text: Biometric Data Storage
+      type: Constraint
+    }
+    requirement SS12-1 {
+      id: SS12-1
+      text: Processing One User at a Time
+      type: Constraint
+    }
+    requirement SS12-2 {
+      id: SS12-2
+      text: Entry Time
+      type: Constraint
+    }
+    requirement SS12-3 {
+      id: SS12-3
+      text: Exit Time
+      type: Constraint
+    }
+    requirement SS12-4 {
+      id: SS12-4
+      text: Configure Entry/Exit Time
+      type: Functional
+    }
+    requirement SS12-5 {
+      id: SS12-5
+      text: Automatic Securing after Entry
+      type: Functional
+    }
+    requirement SS12-6 {
+      id: SS12-6
+      text: Automatic Securing after Exit
+      type: Functional
+    }
+    requirement SS13-1 {
+      id: SS13-1
+      text: Authorization of Security Card - Exit
+      type: Functional
+    }
+    requirement MA1-1 {
+      id: MA1-1
+      text: Image Capture
+      type: Functional
+    }
+    requirement MA2-1 {
+      id: MA2-1
+      text: Time Recording
+      type: Functional
+    }
+    requirement MA2-2 {
+      id: MA2-2
+      text: Time Limit Violation Alarm
+      type: Functional
+    }
+    requirement E1-1 {
+      id: E1-1
+      text: Emergency Exit
+      type: Functional
+    }
+    requirement E2-1 {
+      id: E2-1
+      text: Security Lockdown
+      type: Functional
+    }
+
+    %% Simulating <<satisfy>> links
     SS11-1 --> SS11-2
     SS11-1 --> SS11-3
     SS11-1 --> SS11-4
     SS11-1 --> SS11-5
+    SS11-5 --> SS11-6
+    SS11-2 --> SS11-7
+    SS11-4 --> SS11-8
+    SS11-3 --> SS11-9
+    SS11-7 --> SS11-14
+    SS11-8 --> SS11-14
+    SS11-9 --> SS11-14
+    SS11-2 --> SS11-15
+    SS11-3 --> SS11-16
+    SS11-4 --> SS11-17
+    SS11-7 --> SS11-10
+    SS11-8 --> SS11-10
+    SS11-9 --> SS11-11
+    SS11-10 --> SS11-12
+    SS11-11 --> SS11-13
+    SS111-2 --> SS111-3
+    SS111-3 --> SS111-4
+    SS111-3 --> SS111-5
+    SS112-1 --> SS112-2
+    SS12-1 --> SS12-2
+    SS12-1 --> SS12-3
+    SS12-2 --> SS12-4
+    SS12-3 --> SS12-4
+    SS12-4 --> SS12-5
+    SS12-4 --> SS12-6
+    MA2-1 --> MA2-2
