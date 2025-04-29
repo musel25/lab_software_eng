@@ -109,15 +109,16 @@ flowchart TD
     E2 -- "satisfy" --> E2_1
 
     %% STYLE DEFINITIONS
-%% CLASS DEFINITIONS
-classDef stakeholder fill:#ccffcc,stroke:#333,stroke-width:2px;
-classDef system fill:#cce5ff,stroke:#333,stroke-width:2px;
+    
+    %% CLASS DEFINITIONS
+    classDef stakeholder fill:#ccffcc,stroke:#333,stroke-width:2px;
+    classDef system fill:#cce5ff,stroke:#333,stroke-width:2px;
 
-%% Assign stakeholder class
-class SS1,SS11,SS111,SS112,SS12,SS13,MA1,MA2,E1,E2 stakeholder;
+    %% Assign stakeholder class
+    class SS1,SS11,SS111,SS112,SS12,SS13,MA1,MA2,E1,E2 stakeholder;
 
-%% Assign system class (split safely!)
-class SS11_1,SS11_2,SS11_3,SS11_4,SS11_5,SS11_6,SS11_7,SS11_8,SS11_9,SS11_10,SS11_11,SS11_12 system;
-class SS11_13,SS11_14,SS11_15,SS11_16,SS11_17,SS111_2,SS111_3,SS111_4,SS111_5,SS112_1,SS112_2 system;
-class SS12_1,SS12_2,SS12_3,SS12_4,SS12_5,SS12_6,SS13_1 system;
-class MA1_1,MA2_1,MA2_2,E1_1,E2_1 system;
+    %% Assign system class (split safely!)
+    class SS11_1,SS11_2,SS11_3,SS11_4,SS11_5,SS11_6,SS11_7,SS11_8,SS11_9,SS11_10,SS11_11,SS11_12 system;
+    class SS11_13,SS11_14,SS11_15,SS11_16,SS11_17,SS111_2,SS111_3,SS111_4,SS111_5,SS112_1,SS112_2 system;
+    class SS12_1,SS12_2,SS12_3,SS12_4,SS12_5,SS12_6,SS13_1 system;
+    class MA1_1,MA2_1,MA2_2,E1_1,E2_1 system;
