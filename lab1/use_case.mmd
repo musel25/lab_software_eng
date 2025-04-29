@@ -1,18 +1,18 @@
-flowchart TD
-    actorUser(User)
-    actorAdmin(Administrator)
-    actorCamera(Camera)
-    actorAccessPoint(Access Point)
+%%{init: {'theme':'default'}}%%
+usecaseDiagram
+    actor User
+    actor Administrator
+    actor Camera
+    actor AccessPoint as "Access Point"
 
-    Uc1[Uc1: Control Entry]
-    Uc2[Uc2: Control Exit]
-    Uc3[Uc3: Configure Security System]
+    User --> (Uc1: Control Entry)
+    User --> (Uc2: Control Exit)
 
-    actorUser --> Uc1
-    actorUser --> Uc2
-    actorAdmin --> Uc3
-    actorAdmin --> Uc1
-    actorAdmin --> Uc2
-    actorCamera --> Uc1
-    actorAccessPoint --> Uc1
-    actorAccessPoint --> Uc2
+    Administrator --> (Uc1: Control Entry)
+    Administrator --> (Uc2: Control Exit)
+    Administrator --> (Uc3: Configure Security System)
+
+    Camera --> (Uc1: Control Entry)
+
+    "Access Point" --> (Uc1: Control Entry)
+    "Access Point" --> (Uc2: Control Exit)
