@@ -1,0 +1,244 @@
+@startuml
+left to right direction
+
+package "Stakeholder Requirements" {
+    requirement SS1 {
+        Id SS1
+        Text "System Summary"
+    }
+    requirement SS11 {
+        Id SS11
+        Text "Security Checks"
+    }
+    requirement SS111 {
+        Id SS111
+        Text "Security Card"
+    }
+    requirement SS112 {
+        Id SS112
+        Text "Biometric Scan"
+    }
+    requirement SS12 {
+        Id SS12
+        Text "Access Priority and Time"
+    }
+    requirement SS13 {
+        Id SS13
+        Text "Exit Requirements"
+    }
+    requirement MA1 {
+        Id MA1
+        Text "Image Capture"
+    }
+    requirement MA2 {
+        Id MA2
+        Text "Time Monitoring"
+    }
+    requirement E1 {
+        Id E1
+        Text "Emergency Exit"
+    }
+    requirement E2 {
+        Id E2
+        Text "Security Lockdown"
+    }
+}
+
+package "System Requirements" {
+    requirement SS11_1 {
+        Id SS11-1
+        Text "Two Independent Security Checks"
+    }
+    requirement SS11_2 {
+        Id SS11-2
+        Text "Employee ID Card Identification - Entry"
+    }
+    requirement SS11_3 {
+        Id SS11-3
+        Text "Employee ID Card Identification - Exit"
+    }
+    requirement SS11_4 {
+        Id SS11-4
+        Text "Biometric Scan"
+    }
+    requirement SS11_5 {
+        Id SS11-5
+        Text "Time Between Two Independent Checks"
+    }
+    requirement SS11_6 {
+        Id SS11-6
+        Text "Configure Time Between Two Independent Checks"
+    }
+    requirement SS11_7 {
+        Id SS11-7
+        Text "Three Attempts On Employee ID Entry"
+    }
+    requirement SS11_8 {
+        Id SS11-8
+        Text "Three Attempts On Biometric Data Entry"
+    }
+    requirement SS11_9 {
+        Id SS11-9
+        Text "Three Attempts On Employee ID Exit"
+    }
+    requirement SS11_10 {
+        Id SS11-10
+        Text "Denied Entry Notification"
+    }
+    requirement SS11_11 {
+        Id SS11-11
+        Text "Denied Exit Notification"
+    }
+    requirement SS11_12 {
+        Id SS11-12
+        Text "Alarm - Entry"
+    }
+    requirement SS11_13 {
+        Id SS11-13
+        Text "Alarm - Exit"
+    }
+    requirement SS11_14 {
+        Id SS11-14
+        Text "Disabling User Account"
+    }
+    requirement SS11_15 {
+        Id SS11-15
+        Text "Visualization of Security Card Check Status - Entry"
+    }
+    requirement SS11_16 {
+        Id SS11-16
+        Text "Visualization of Security Card Check Status - Exit"
+    }
+    requirement SS11_17 {
+        Id SS11-17
+        Text "Visualization of Biometric Data Check Status"
+    }
+    requirement SS111_2 {
+        Id SS111-2
+        Text "Authorization of Security Card - Entry"
+    }
+    requirement SS111_3 {
+        Id SS111-3
+        Text "Security Card Renewal"
+    }
+    requirement SS111_4 {
+        Id SS111-4
+        Text "Out of Date Cards - Entry"
+    }
+    requirement SS111_5 {
+        Id SS111-5
+        Text "Out of Date Cards - Exit"
+    }
+    requirement SS112_1 {
+        Id SS112-1
+        Text "Approval of Biometric Data"
+    }
+    requirement SS112_2 {
+        Id SS112-2
+        Text "Biometric Data Storage"
+    }
+    requirement SS12_1 {
+        Id SS12-1
+        Text "Processing One User at a Time"
+    }
+    requirement SS12_2 {
+        Id SS12-2
+        Text "Entry Time"
+    }
+    requirement SS12_3 {
+        Id SS12-3
+        Text "Exit Time"
+    }
+    requirement SS12_4 {
+        Id SS12-4
+        Text "Configure Entry and Exit Time"
+    }
+    requirement SS12_5 {
+        Id SS12-5
+        Text "Automatic Securing the Secure Area - Entry"
+    }
+    requirement SS12_6 {
+        Id SS12-6
+        Text "Automatic Securing the Secure Area - Exit"
+    }
+    requirement SS13_1 {
+        Id SS13-1
+        Text "Authorization of Security Card - Exit"
+    }
+    requirement MA1_1 {
+        Id MA1-1
+        Text "Image Capture"
+    }
+    requirement MA2_1 {
+        Id MA2-1
+        Text "Time Recording"
+    }
+    requirement MA2_2 {
+        Id MA2-2
+        Text "Timelimit Violation"
+    }
+    requirement E1_1 {
+        Id E1-1
+        Text "Emergency Exit"
+    }
+    requirement E2_1 {
+        Id E2-1
+        Text "Security Lockdown"
+    }
+}
+
+' Satisfy Links (Stakeholders to System Requirements)
+SS1 -down-> SS11
+SS1 -down-> SS111
+SS1 -down-> SS112
+SS1 -down-> SS12
+SS1 -down-> SS13
+SS1 -down-> MA1
+SS1 -down-> MA2
+SS1 -down-> E1
+SS1 -down-> E2
+
+SS11 --> SS11_1
+SS11 --> SS11_2
+SS11 --> SS11_3
+SS11 --> SS11_4
+SS11 --> SS11_5
+SS11 --> SS11_6
+SS11 --> SS11_7
+SS11 --> SS11_8
+SS11 --> SS11_9
+SS11 --> SS11_10
+SS11 --> SS11_11
+SS11 --> SS11_12
+SS11 --> SS11_13
+SS11 --> SS11_14
+SS11 --> SS11_15
+SS11 --> SS11_16
+SS11 --> SS11_17
+
+SS111 --> SS111_2
+SS111 --> SS111_3
+SS111 --> SS111_4
+SS111 --> SS111_5
+
+SS112 --> SS112_1
+SS112 --> SS112_2
+
+SS12 --> SS12_1
+SS12 --> SS12_2
+SS12 --> SS12_3
+SS12 --> SS12_4
+SS12 --> SS12_5
+SS12 --> SS12_6
+
+SS13 --> SS13_1
+
+MA1 --> MA1_1
+
+MA2 --> MA2_1
+MA2 --> MA2_2
+
+E1 --> E1_1
+E2 --> E2_1
+
+@enduml
