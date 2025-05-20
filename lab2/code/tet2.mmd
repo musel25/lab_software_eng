@@ -1,26 +1,21 @@
-%% Use-case diagram – Security System (UCD_SecuritySystem)
-%% Assumptions from source image:
-%%   • User & Admin interact with ALL three use-cases.
-%%   • Camera interacts only with “Control Entry”.
-%%   • Access Point interacts with “Control Exit” and “Configure System”.
-%%   • Boundary rectangle = subject system.
+graph TD
+    %% ─────────── Actors ───────────
+    classDef actor fill:#ffffff,stroke:#333,stroke-width:1px;
+    User["User"]:::actor
+    Admin["Admin"]:::actor
+    Camera["Camera"]:::actor
+    AccessPoint["Access Point"]:::actor
 
-usecaseDiagram
-    %% ───────── Actors ─────────
-    actor User
-    actor Admin
-    actor Camera
-    actor "Access Point" as AccessPoint
+    %% ─────────── System boundary ───────────
+    subgraph "Security System"
+        direction TB
+        UC1((Uc1 Control Entry))
+        UC2((Uc2 Control Exit))
+        UC3((Uc3 Configure Security System))
+    end
 
-    %% ───────── System boundary & use-cases ─────────
-    rectangle "Security System" {
-        (Uc1 Control Entry)  as UC1
-        (Uc2 Control Exit)   as UC2
-        (Uc3 Configure Security System) as UC3
-    }
-
-    %% ───────── Associations ─────────
-    User  --> UC1
+    %% ─────────── Associations ───────────
+    User  -- interacts --> UC1
     User  --> UC2
     User  --> UC3
 
@@ -28,7 +23,7 @@ usecaseDiagram
     Admin --> UC2
     Admin --> UC3
 
-    Camera      --> UC1
+    Camera --> UC1
 
     AccessPoint --> UC2
     AccessPoint --> UC3
