@@ -1,19 +1,17 @@
-%% Activity diagram – Uc1 Control Entry  (GitHub-compatible Mermaid)
-
 flowchart TD
-    %% ─────── Styles ───────
+    %% ===== Styles =====
     classDef actor fill:#e6f7ff,stroke:#3399ff,stroke-dasharray:4 2;
 
-    %% ─────── Actors / objects (for dashed reference links) ───────
+    %% ===== Actors / objects =====
     User[[User]]:::actor
     Admin[[Admin]]:::actor
     Camera[[Camera]]:::actor
     AccessPoint[[Access Point]]:::actor
 
-    %% ─────── Activity nodes ───────
-    start((Start))                           %% initial
+    %% ===== Activity nodes =====
+    start((Start))
     a1[readSecurityCard]
-    a2[takePicture]                          %% messageAction (Camera)
+    a2[takePicture]
     d1{ScFailCount &lt; 3?}
     a3[flagSecurityCardFailure]
 
@@ -35,29 +33,29 @@ flowchart TD
     a12[disableUserAccount]
     a13[logAccountData]
     a14[alarm]
-    a15[resetAlarm]                          %% derived requirement
+    a15[resetAlarm]
 
-    end((End))                               %% final
+    end((End))
 
-    %% ─────── Control flow ───────
+    %% ===== Control flow =====
     start --> a1
-    a1 -- "First Request" --> a2
+    a1 -->|First Request| a2
     a1 --> d1
 
-    d1 -- yes --> a3 --> d1                  %% retry ≤3 card attempts
-    d1 -- no  --> a4 --> d2
+    d1 -- Yes --> a3 --> d1
+    d1 -- No  --> a4 --> d2
 
-    d2 -- no  --> a3
-    d2 -- yes --> a5 --> a6
+    d2 -- No  --> a3
+    d2 -- Yes --> a5 --> a6
 
     a6 --> d3
-    d3 -- yes --> a7 --> d3                  %% retry ≤3 bio attempts
-    d3 -- no  --> a8 --> a9 --> d4
+    d3 -- Yes --> a7 --> d3
+    d3 -- No  --> a8 --> a9 --> d4
 
-    d4 -- yes --> a10 --> a11 --> end
-    d4 -- no  --> a12 --> a13 --> a14 --> a15 --> end
+    d4 -- Yes --> a10 --> a11 --> end
+    d4 -- No  --> a12 --> a13 --> a14 --> a15 --> end
 
-    %% ─────── Reference links to actors / objects (dashed) ───────
+    %% ===== Reference links (dashed) =====
     User -.-> a1
     Camera -.-> a2
     User -.-> a6
