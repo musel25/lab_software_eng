@@ -1,30 +1,29 @@
-%% Activity diagram (black-box view) – Use-Case Uc1 Control Entry
-%% Approximated from Fig 4-3.45.  Green rectangles = actions, diamonds =
-%% decisions, circles = initial/final nodes.  Blue dashed links show which
-%% actor/object triggers each action (SysML «ActionPin» / «MessageAction»).
+%% Activity diagram – Uc1 Control Entry  (GitHub-compatible Mermaid)
 
 flowchart TD
-    %% ────── Actor / object “pins” (styling only) ──────
-    classDef actor fill:#e6f7ff,stroke:#3399ff,stroke-dasharray:5 3;
+    %% ─────── Styles ───────
+    classDef actor fill:#e6f7ff,stroke:#3399ff,stroke-dasharray:4 2;
+
+    %% ─────── Actors / objects (for dashed reference links) ───────
     User[[User]]:::actor
     Admin[[Admin]]:::actor
     Camera[[Camera]]:::actor
     AccessPoint[[Access Point]]:::actor
 
-    %% ────── Nodes ──────
-    start((●))             %% initial node
-    a1[readSecurityCard]   %% action (User)
-    a2[takePicture]        %% MessageAction (Camera)
-    d1{ScFailCount&lt;3?}
+    %% ─────── Activity nodes ───────
+    start((Start))                           %% initial
+    a1[readSecurityCard]
+    a2[takePicture]                          %% messageAction (Camera)
+    d1{ScFailCount &lt; 3?}
     a3[flagSecurityCardFailure]
 
     a4[validateSecurityCard]
     d2{CardStatus Valid?}
     a5[displayCardStatus]
 
-    a6[scanBiometricData]  %% action (User)
-    d3{BioFailCount&lt;3?}
-    a7[flagBiometricDataFailure]
+    a6[scanBiometricData]
+    d3{BioFailCount &lt; 3?}
+    a7[flagBiometricFailure]
 
     a8[authenticateBiometricData]
     a9[displayAuthenticationStatus]
@@ -36,32 +35,32 @@ flowchart TD
     a12[disableUserAccount]
     a13[logAccountData]
     a14[alarm]
-    a15[resetAlarm]        %% Derived requirement
+    a15[resetAlarm]                          %% derived requirement
 
-    end((●))               %% final node
+    end((End))                               %% final
 
-    %% ────── Control / object flow ──────
+    %% ─────── Control flow ───────
     start --> a1
-    a1 -->|«First Request»| a2
+    a1 -- "First Request" --> a2
     a1 --> d1
 
-    d1 -- yes --> a3 --> d1         %% retry loop ≤3 card attempts
+    d1 -- yes --> a3 --> d1                  %% retry ≤3 card attempts
     d1 -- no  --> a4 --> d2
 
-    d2 -- no  --> a3                %% invalid card → flag failure
+    d2 -- no  --> a3
     d2 -- yes --> a5 --> a6
 
     a6 --> d3
-    d3 -- yes --> a7 --> d3         %% retry loop ≤3 bio attempts
+    d3 -- yes --> a7 --> d3                  %% retry ≤3 bio attempts
     d3 -- no  --> a8 --> a9 --> d4
 
     d4 -- yes --> a10 --> a11 --> end
     d4 -- no  --> a12 --> a13 --> a14 --> a15 --> end
 
-    %% ────── Actor / object pins (dashed associations) ──────
+    %% ─────── Reference links to actors / objects (dashed) ───────
     User -.-> a1
     Camera -.-> a2
     User -.-> a6
-    AccessPoint -.-> a11
     Admin -.-> a12
     Admin -.-> a15
+    AccessPoint -.-> a11
