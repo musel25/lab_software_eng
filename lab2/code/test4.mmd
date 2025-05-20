@@ -1,17 +1,19 @@
 flowchart TD
-    %% ===== Styles =====
+    %% ─────── Styles ───────
     classDef actor fill:#e6f7ff,stroke:#3399ff,stroke-dasharray:4 2;
 
-    %% ===== Actors / objects =====
+    %% ─────── Actors / external objects ───────
     User[[User]]:::actor
     Admin[[Admin]]:::actor
     Camera[[Camera]]:::actor
     AccessPoint[[Access Point]]:::actor
 
-    %% ===== Activity nodes =====
+    %% ─────── Activity nodes ───────
     start((Start))
+
     a1[readSecurityCard]
     a2[takePicture]
+
     d1{ScFailCount &lt; 3?}
     a3[flagSecurityCardFailure]
 
@@ -35,27 +37,42 @@ flowchart TD
     a14[alarm]
     a15[resetAlarm]
 
-    end((End))
+    finish((End))
 
-    %% ===== Control flow =====
+    %% ─────── Control flow ───────
     start --> a1
     a1 -->|First Request| a2
     a1 --> d1
 
-    d1 -- Yes --> a3 --> d1
-    d1 -- No  --> a4 --> d2
+    d1 -- Yes --> a3
+    a3 --> d1
+    d1 -- No --> a4
 
-    d2 -- No  --> a3
-    d2 -- Yes --> a5 --> a6
+    a4 --> d2
+    d2 -- No --> a3
+    d2 -- Yes --> a5
 
+    a5 --> a6
     a6 --> d3
-    d3 -- Yes --> a7 --> d3
-    d3 -- No  --> a8 --> a9 --> d4
 
-    d4 -- Yes --> a10 --> a11 --> end
-    d4 -- No  --> a12 --> a13 --> a14 --> a15 --> end
+    d3 -- Yes --> a7
+    a7 --> d3
+    d3 -- No --> a8
 
-    %% ===== Reference links (dashed) =====
+    a8 --> a9
+    a9 --> d4
+
+    d4 -- Yes --> a10
+    a10 --> a11
+    a11 --> finish
+
+    d4 -- No --> a12
+    a12 --> a13
+    a13 --> a14
+    a14 --> a15
+    a15 --> finish
+
+    %% ─────── Reference links (dashed) ───────
     User -.-> a1
     Camera -.-> a2
     User -.-> a6
