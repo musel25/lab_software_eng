@@ -1,0 +1,67 @@
+%%  Requirements ↔︎ Use-Case trace map
+%%  Diagram: RD_Uc1LinksToSysReqs  (<<trace>> dependencies)
+%%  Central oval = use-case “Uc1 Control Entry”.
+%%  Yellow boxes = system requirements traced to this use-case.
+graph TD
+    %% ========== Styles ==========
+    classDef req fill:#fff7c2,stroke:#c9ad00,stroke-width:1px;
+    classDef uc  fill:#ffffff,stroke:#333,stroke-width:1.5px;
+
+    %% ========== Use-case (centre) ==========
+    UC1(("Uc1 Control Entry")):::uc
+
+    %% ========== Requirement blocks (clockwise, roughly mirroring source layout) ==========
+    %% — top
+    R_SS11_1["Two Independent<br/>Security Checks<br/>(ID SS11-1)"]:::req
+    UC1 -. trace .-> R_SS11_1
+
+    %% — upper-left column
+    R_MA1_1["Image Capture<br/>(MA1-1)"]:::req
+    R_SS11_2["Employee ID Card Identification – Entry<br/>(SS11-2)"]:::req
+    R_ACSPRE["Access Precondition<br/>(SS11-12)"]:::req
+    R_SS11_7["3 Attempts on Employee ID Entry<br/>(SS11-7)"]:::req
+    R_SS12_1["Processing User Request<br/>(SS12-1)"]:::req
+    R_SS11_11["Security Card Information<br/>(SS11-11)"]:::req
+    R_SS11_14A["Out-of-Date Cards – Entry<br/>(SS11-14)"]:::req
+    R_SS11_15["Visualise Card Check Status – Entry<br/>(SS11-15)"]:::req
+    R_SS12_2["Entry Time<br/>(SS12-2)"]:::req
+
+    %% — upper-right column
+    R_SS11_8["3 Attempts on Biometric Data Entry<br/>(SS11-8)"]:::req
+    R_SS11_4["Biometric Scan<br/>(SS11-4)"]:::req
+    R_SS112_1["Approval of Biometric Data<br/>(SS112-1)"]:::req
+    R_SS11_17["Visualise Biometric Data Check Status<br/>(SS11-17)"]:::req
+    R_SS112_2["Biometric Data Storage<br/>(SS112-2)"]:::req
+    R_SS11_10["Denied Entry Notification<br/>(SS11-10)"]:::req
+    R_SS11_14B["Disabling User Account<br/>(SS11-14)"]:::req
+    R_SS11_12["Alarm – Entry<br/>(SS11-12)"]:::req
+    R_SS126["Automatic Securing the Area – Entry<br/>(SS12-5)"]:::req
+
+    %% — bottom
+    R_SS11_5["Time Between Two Independent Checks<br/>(SS11-5)"]:::req
+
+    %% ========== Trace links (dashed) ==========
+    %% Left column links
+    UC1 -. trace .-> R_MA1_1
+    UC1 -. trace .-> R_SS11_2
+    UC1 -. trace .-> R_ACSPRE
+    UC1 -. trace .-> R_SS11_7
+    UC1 -. trace .-> R_SS12_1
+    UC1 -. trace .-> R_SS11_11
+    UC1 -. trace .-> R_SS11_14A
+    UC1 -. trace .-> R_SS11_15
+    UC1 -. trace .-> R_SS12_2
+
+    %% Right column links
+    UC1 -. trace .-> R_SS11_8
+    UC1 -. trace .-> R_SS11_4
+    UC1 -. trace .-> R_SS112_1
+    UC1 -. trace .-> R_SS11_17
+    UC1 -. trace .-> R_SS112_2
+    UC1 -. trace .-> R_SS11_10
+    UC1 -. trace .-> R_SS11_14B
+    UC1 -. trace .-> R_SS11_12
+    UC1 -. trace .-> R_SS126
+
+    %% Bottom link
+    UC1 -. trace .-> R_SS11_5
