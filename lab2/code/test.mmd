@@ -1,0 +1,106 @@
+%% ─────────────────────────────────────────────────────────
+%%  Requirements → Stakeholder “satisfy” map (fragment RD_SysReqsToSHReqsLinks)
+%% ─────────────────────────────────────────────────────────
+graph LR
+    %% ===== System-level requirements (cyan) =====
+    subgraph SYS["System-level Requirements"]
+        direction TB
+        SYS_SS1["SS1<br/>Entry & Exit Control System"]:::sys
+
+        SYS_E2["E2<br/>Security Lockdown"]:::sys
+        SYS_MA2["MA2<br/>Time Monitoring"]:::sys
+        SYS_SS112["SS112<br/>Biometric Scan"]:::sys
+        SYS_E1["E1<br/>Emergency Exit"]:::sys
+        SYS_MA1["MA1<br/>Image Capture"]:::sys
+
+        SYS_SS13["SS13<br/>Exit Requirements"]:::sys
+        SYS_SS12["SS12<br/>Access Priority & Time"]:::sys
+        SYS_SS11SC["SS11<br/>Security Card"]:::sys
+        SYS_SS11CK["SS11<br/>Security Checks"]:::sys
+    end
+
+    %% ===== Stakeholder requirements (yellow) =====
+    subgraph SHR["Stakeholder Requirements"]
+        direction TB
+        SR_E2_1["E2-1<br/>Security Lockdown"]:::shr
+        SR_MA2_1["MA2-1<br/>Time Recording"]:::shr
+        SR_MA2_2["MA2-2<br/>Alarm Conditions"]:::shr
+        SR_SS112_1["SS112-1<br/>Approval of Biometric Data"]:::shr
+        SR_SS112_2["SS112-2<br/>Biometric Data Storage"]:::shr
+        SR_E1_1["E1-1<br/>Emergency Exit"]:::shr
+        SR_MA1_1["MA1-1<br/>Image Capture"]:::shr
+
+        SR_SS13_1["SS13-1<br/>Authorise Sec Card-Exit"]:::shr
+        SR_SS12_1["SS12-1<br/>Processing User Request"]:::shr
+        SR_SS12_2["SS12-2<br/>Entry Time"]:::shr
+        SR_SS12_3["SS12-3<br/>Exit Time"]:::shr
+
+        SR_SS11_14["SS11-14<br/>Disable User Account"]:::shr
+        SR_SS11_7["SS11-7<br/>3 Attempts ID Entry"]:::shr
+        SR_SS11_9["SS11-9<br/>3 Attempts ID Exit"]:::shr
+        SR_SS11_5["SS11-5<br/>Time Between Checks"]:::shr
+        SR_SS11_10["SS11-10<br/>Denied Entry Notice"]:::shr
+        SR_SS11_11["SS11-11<br/>Denied Exit Notice"]:::shr
+        SR_SS11_8["SS11-8<br/>3 Attempts Bio Entry"]:::shr
+        SR_SS11_1["SS11-1<br/>2 Independent Checks"]:::shr
+        SR_SS11_16["SS11-16<br/>Visualise Card Status-Exit"]:::shr
+        SR_SS11_15["SS11-15<br/>Visualise Card Status-Entry"]:::shr
+        SR_SS11_2["SS11-2<br/>ID Card Entry"]:::shr
+        SR_SS11_13["SS11-13<br/>Alarm-Exit"]:::shr
+        SR_SS11_12["SS11-12<br/>Alarm-Entry"]:::shr
+        SR_SS11_3["SS11-3<br/>ID Card Exit"]:::shr
+        SR_SS11_17["SS11-17<br/>Visualise Bio Check"]:::shr
+        SR_SS11_4["SS11-4<br/>Biometric Scan"]:::shr
+    end
+
+    %% ===== Decomposition (solid arrows) =====
+    SYS_SS1 --> SYS_E2
+    SYS_SS1 --> SYS_MA2
+    SYS_SS1 --> SYS_SS112
+    SYS_SS1 --> SYS_E1
+    SYS_SS1 --> SYS_MA1
+    SYS_SS1 --> SYS_SS13
+    SYS_SS1 --> SYS_SS12
+    SYS_SS1 --> SYS_SS11SC
+    SYS_SS1 --> SYS_SS11CK
+
+    %% ===== «satisfy» dependencies (dashed) =====
+    %%  — top / left cluster
+    SYS_E2    -. "satisfy" .-> SR_E2_1
+    SYS_MA2   -. "satisfy" .-> SR_MA2_1
+    SYS_MA2   -. "satisfy" .-> SR_MA2_2
+    SYS_SS112 -. "satisfy" .-> SR_SS112_1
+    SYS_SS112 -. "satisfy" .-> SR_SS112_2
+    SYS_E1    -. "satisfy" .-> SR_E1_1
+    SYS_MA1   -. "satisfy" .-> SR_MA1_1
+
+    %%  — middle branch
+    SYS_SS13  -. "satisfy" .-> SR_SS13_1
+    SYS_SS12  -. "satisfy" .-> SR_SS12_1
+    SYS_SS12  -. "satisfy" .-> SR_SS12_2
+    SYS_SS12  -. "satisfy" .-> SR_SS12_3
+
+    %%  — security-card & security-checks clusters
+    SYS_SS11SC -. "satisfy" .-> SR_SS11_4
+    SYS_SS11SC -. "satisfy" .-> SR_SS11_2
+    SYS_SS11SC -. "satisfy" .-> SR_SS11_3
+    SYS_SS11SC -. "satisfy" .-> SR_SS11_1
+    SYS_SS11SC -. "satisfy" .-> SR_SS11_5
+
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_14
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_7
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_9
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_5
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_10
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_11
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_8
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_16
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_15
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_13
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_12
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_17
+    SYS_SS11CK -. "satisfy" .-> SR_SS11_4
+
+    %% ===== Styling =====
+    classDef sys fill:#b3e5ff,stroke:#1c75bc,stroke-width:1px;
+    classDef shr fill:#fff7c2,stroke:#c9ad00,stroke-width:1px;
