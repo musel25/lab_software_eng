@@ -1,26 +1,22 @@
 sequenceDiagram
-    title Uc1 _Control Entry – Nominal Scenario (Uc1_Sc1)
-
-    %%──────── Actors / lifelines ────────
+    %% Nominal scenario – Uc1 Control Entry
     participant User
-    participant System as "Uc_Uc1ControlEntry"
+    participant UC_Uc1ControlEntry as System
     participant AccessPoint
     participant Camera
 
-    %%──────── Context / pre-condition ────────
-    Note over System: **Pre-condition:**<br/>Security System configured
+    Note over System: Pre-condition: Security System configured
 
-    %%──────── Main happy-path flow ────────
-    User  ->> System: reqReadSecurityCard()
-    System-->>Camera: takeSnapshot()
-    System-->>System: validateSecurityCard()<br/>&nbsp;&nbsp;return CardStatus
-    System-->>User: displayCardStatus(CardStatus)
+    User        ->> System      : reqReadSecurityCard
+    System      ->> Camera      : takeSnapshot
+    System      ->> System      : validateSecurityCard
+    System      ->> User        : displayCardStatus
 
-    User  ->> System: reqScanBiometricData()
-    User  -->> System: scanBiometricData()
-    System-->>System: authenticateBiometricData()<br/>&nbsp;&nbsp;return AuthenticationStatus
-    System-->>User: displayAuthenticationStatus(AuthenticationStatus)
+    User        ->> System      : reqScanBiometricData
+    User        ->> System      : scanBiometricData
+    System      ->> System      : authenticateBiometricData
+    System      ->> User        : displayAuthenticationStatus
 
-    System-->>AccessPoint: logEntryData()
-    System-->>AccessPoint: unlockAccessPoint()
-    AccessPoint -->> System: AP_Unlocked
+    System      ->> AccessPoint : logEntryData
+    System      ->> AccessPoint : unlockAccessPoint
+    AccessPoint -->> System      : AP_Unlocked
