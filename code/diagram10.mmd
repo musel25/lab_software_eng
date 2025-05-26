@@ -1,0 +1,50 @@
+flowchart TD
+    %% ──── actor styling ────
+    classDef actor fill:#e6f7ff,stroke:#3399ff,stroke-dasharray:4 2;
+
+    %% ──── external actors (dashed refs only) ────
+    User[[User]]:::actor
+    Admin[[Admin]]:::actor
+    AccessPoint[[Access Point]]:::actor
+
+    %% ──── activity nodes ────
+    start((Start))
+    read[readSecurityCard]
+    validate[validateSecurityCard]
+    display[displayCardStatus]
+    chkCard{CardStatusValid?}
+    logExit[logExitData]
+    unlock[unlockAccessPoint]
+    lockAP[lockAccessPoint]
+    finish((End))
+
+    flagFail[flagSecurityCardFailure]
+    chkCount{ScFailCountLt3?}
+    alarm[alarm]
+    reset[resetAlarm]
+
+    checkTL[checkForTimeLimitViolations]
+
+    %% ──── main control flow ────
+    start --> read --> validate --> display --> chkCard
+    chkCard -- yes --> logExit --> unlock --> lockAP --> finish
+    chkCard -- no  --> flagFail --> chkCount
+    chkCount -- yes --> read            %% retry
+    chkCount -- no  --> alarm --> reset --> finish
+
+    %% ──── parallel admin check (simplified) ────
+    start -.-> checkTL
+    checkTL -.-> finish
+
+    %% ──── dashed associations to actors ────
+    User -.-> read
+    User -.-> validate
+    User -.-> display
+
+    AccessPoint -.-> unlock
+    AccessPoint -.-> lockAP
+
+    Admin -.-> checkTL
+    Admin -.-> flagFail
+    Admin -.-> alarm
+    Admin -.-> reset
