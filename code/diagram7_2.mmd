@@ -1,0 +1,52 @@
+stateDiagram-v2
+    [*] --> WaitForEntryRequest
+
+    state WaitForEntryRequest {
+        [*] --> idle
+        idle --> ProcessingSecurityCardData : reqReadSecurityCard()
+    }
+
+    %% ───────── ① ProcessingSecurityCardData ─────────
+    state ProcessingSecurityCardData as P1 {
+        [%scFailCount==0] --> ValidatingSecurityCardData
+        ValidatingSecurityCardData --> WaitForEntryRequest : SecCardFailure [ScFailCount<3]
+        ValidatingSecurityCardData --> ProcessingBiometricData : CardStatus=="Valid"
+        ValidatingSecurityCardData --> FailedTimes : SecCardFailure [ScFailCount>=3]
+
+        state FailedTimes {
+            [*] --> terminal
+            terminal --> WaitForEntryRequest : reqReadSecurityCard()
+        }
+    }
+
+    %% ───────── ② ProcessingBiometricData ─────────
+    state ProcessingBiometricData as P2 {
+        [%bFailCount==0] --> AuthenticatingBiometricData
+        AuthenticatingBiometricData --> UnlockingAndLockingAccessPoint : Authenticated
+        AuthenticatingBiometricData --> FailedTimesB : BiometricScanFailure [BFailCount>=3]
+        AuthenticatingBiometricData --> WaitForEntryRequest : BsTimeout
+
+        state FailedTimesB {
+            [*] --> disableUserAccount / logAccountData
+            disableUserAccount --> WaitForEntryRequest : reqReadSecurityCard()
+        }
+    }
+
+    %% ───────── ③ Unlocking / Locking Access Point ─────────
+    state UnlockingAndLockingAccessPoint as P3 {
+        [*] --> Locked
+        Locked --> UnlockingAccessPoint : reqUnlockAccessPoint()
+        UnlockingAccessPoint --> AccessPointUnlocked : evAccessPointUnlocked
+        AccessPointUnlocked --> WaitForResetAlarm
+        state WaitForResetAlarm {
+            [*] --> pending
+            pending --> Locked : reqResetAlarm() / resetAlarm()
+        }
+    }
+
+    %% ───────── High-level transitions between composites ─────────
+    WaitForEntryRequest --> P1
+    P1 --> WaitForEntryRequest : flagSecurityCardFailure()
+    P1 --> P2 : CardStatus=="Valid"
+    P2 --> P3 : Authenticated
+    P3 --> WaitForEntryRequest : evAccessPointLocked
