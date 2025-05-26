@@ -1,0 +1,48 @@
+stateDiagram-v2
+    %% ────────── Top-level flow ──────────
+    [*] --> WaitForEntryRequest
+
+    WaitForEntryRequest --> ProcessingSecurityCardData : reqReadSecurityCard
+    ProcessingSecurityCardData --> WaitForEntryRequest  : flagSecurityCardFailure
+    ProcessingSecurityCardData --> ProcessingBiometricData : CardStatusValid
+    ProcessingBiometricData  --> UnlockAndLockAP        : Authenticated
+    UnlockAndLockAP          --> WaitForEntryRequest    : evAccessPointLocked
+
+    %% ────────── Composite ① (card) ──────────
+    state "ProcessingSecurityCardData" as ProcCard
+    state ProcCard {
+        [*] --> ValidatingCard
+
+        ValidatingCard --> WaitForEntryRequest : SecCardFail_countLT3
+        ValidatingCard --> Fail3Card           : SecCardFail_countGE3
+        ValidatingCard --> [*]                 : CardStatusValid
+
+        state Fail3Card {
+            [*] --> DisableAccount
+            DisableAccount --> [*]
+        }
+    }
+
+    %% ────────── Composite ② (biometric) ──────────
+    state "ProcessingBiometricData" as ProcBio
+    state ProcBio {
+        [*] --> AuthenticatingBio
+
+        AuthenticatingBio --> WaitForEntryRequest : BioTimeout
+        AuthenticatingBio --> Fail3Bio            : BioScanFail_countGE3
+        AuthenticatingBio --> [*]                 : Authenticated
+
+        state Fail3Bio {
+            [*] --> DisableAccountB
+            DisableAccountB --> [*]
+        }
+    }
+
+    %% ────────── Composite ③ (access-point) ──────────
+    state "UnlockAndLockAP" as UnlockLock
+    state UnlockLock {
+        [*] --> Locked
+        Locked --> Unlocking : reqUnlockAccessPoint
+        Unlocking --> Unlocked : evAccessPointUnlocked
+        Unlocked --> Locked : reqLockAccessPoint
+    }
