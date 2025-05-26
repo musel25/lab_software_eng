@@ -1,22 +1,11 @@
-%% GitHub-friendly approximation of a SysML Internal Block Diagram
-%% Blocks are drawn as classes; ports appear as class members; interfaces are
-%% labelled on the connectors.
-
 classDiagram
-    %% ────────── Central use-case block ──────────
+    %% ========= Central use-case block =========
     class iUc1ControlEntry {
         <<block>>
-        +pUser : port
-        +pAdmin : port
-        +pCamera : port
-        +pAccessPoint : port
-        --
-        ScFailCount
-        BFailCount
-        tBs        /* timers etc. */
-        tUnlock
-        AuthenticationStatus
-        CardStatus
+        +pUser
+        +pAdmin
+        +pCamera
+        +pAccessPoint
         --
         readSecurityCard()
         validateSecurityCard()
@@ -33,7 +22,7 @@ classDiagram
         resetAlarm()
     }
 
-    %% ────────── Actor instances (as proxy blocks) ──────────
+    %% ========= Actor proxy blocks =========
     class ibUser {
         <<actor>>
         +reqRequestEntry()
@@ -57,8 +46,8 @@ classDiagram
         +reqLockAccessPoint()
     }
 
-    %% ────────── Interface-labelled connectors ──────────
-    ibUser        -->|I_User_Uc1ControlEntry|        iUc1ControlEntry : pUser
-    ibAdmin       -->|I_Admin_Uc1ControlEntry|       iUc1ControlEntry : pAdmin
-    ibCamera      -->|I_Camera_Uc1ControlEntry|      iUc1ControlEntry : pCamera
-    ibAccessPoint -->|I_AccessPoint_Uc1ControlEntry| iUc1ControlEntry : pAccessPoint
+    %% ========= Interface-labelled connectors =========
+    ibUser        --> iUc1ControlEntry : I_User_Uc1ControlEntry
+    ibAdmin       --> iUc1ControlEntry : I_Admin_Uc1ControlEntry
+    ibCamera      --> iUc1ControlEntry : I_Camera_Uc1ControlEntry
+    ibAccessPoint --> iUc1ControlEntry : I_AccessPoint_Uc1ControlEntry
