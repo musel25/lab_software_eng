@@ -1,0 +1,22 @@
+sequenceDiagram
+    %% Lifelines
+    participant User
+    participant System as UC_Uc1ControlEntry
+    participant Admin
+
+    Note over System: Pre-condition: card validation failed three times
+
+    %% Main flow
+    User   ->>  System : reqReadSecurityCard
+    System -->> System : readSecurityCard()
+    System -->> System : validateSecurityCard()
+    System -->> System : displayCardStatus()
+
+    %% Failure branch
+    Note right of System: guard ScFailCount ≥ 3
+    System -->> System : flagSecurityCardFailure(ScFailCount)
+    System -->> Admin  : disableUserAccount()
+    System -->> Admin  : logAccountData()
+    System -->> Admin  : reqProcessAlert(type="User Account Disabled")
+    System -->> Admin  : alarm()
+    Admin  -->> System : resetAlarm()
