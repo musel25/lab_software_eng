@@ -5,18 +5,17 @@ sequenceDiagram
 
     User ->> System : reqReadSecurityCard
 
-    loop up_to_3_attempts
+    loop up to three attempts
         System ->> System : readSecurityCard
         System ->> System : validateSecurityCard
         System ->> User   : displayCardStatus
 
-        alt more_attempts_allowed
+        alt more attempts allowed
             User ->> System : retryReadSecurityCard
-        else three_failures
+        else three failures
             Admin -->> System : flagSecurityCardFailure
             System -->> Admin : reqProcessAlert
             System -->> Admin : alarm
-            Admin  -->> System: resetAlarm
-            break
+            Admin  -->> System : resetAlarm
         end
     end
