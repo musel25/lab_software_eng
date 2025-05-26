@@ -1,0 +1,58 @@
+flowchart TD
+    %% actor style
+    classDef actor fill:#e6f7ff,stroke:#3399ff,stroke-dasharray:4 2
+
+    %% external actors
+    User[User]:::actor
+    Admin[Admin]:::actor
+    AccessPoint[Access Point]:::actor
+
+    %% activity nodes
+    start((Start))
+    read[readSecurityCard]
+    validate[validateSecurityCard]
+    display[displayCardStatus]
+    chkCard{CardStatusValid}
+    logExit[logExitData]
+    unlock[unlockAccessPoint]
+    lockAP[lockAccessPoint]
+    finish((End))
+
+    flagFail[flagSecurityCardFailure]
+    chkCount{ScFailCount_lt3}
+    alarm[alarm]
+    reset[resetAlarm]
+
+    checkTL[checkForTimeLimitViolations]
+
+    %% main control flow
+    start --> read
+    read --> validate
+    validate --> display
+    display --> chkCard
+    chkCard -- "yes" --> logExit
+    logExit --> unlock
+    unlock --> lockAP
+    lockAP --> finish
+
+    chkCard -- "no" --> flagFail
+    flagFail --> chkCount
+    chkCount -- "yes" --> read
+    chkCount -- "no"  --> alarm
+    alarm --> reset
+    reset --> finish
+
+    %% parallel time-limit check
+    start -.-> checkTL
+    checkTL -.-> finish
+
+    %% dashed actor associations
+    User -.-> read
+    User -.-> validate
+    User -.-> display
+    AccessPoint -.-> unlock
+    AccessPoint -.-> lockAP
+    Admin -.-> checkTL
+    Admin -.-> flagFail
+    Admin -.-> alarm
+    Admin -.-> reset
