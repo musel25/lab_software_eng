@@ -2,11 +2,12 @@ import os
 import subprocess
 import sys
 
-def convert_mmd_to_images(input_folder, output_folder):
-    """Convert all .mmd files to both SVG and PNG formats with enhanced quality."""
-    # Create output folder if it doesn't exist
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+def convert_mmd_to_images(input_folder, svg_folder, png_folder):
+    """Convert all .mmd files to both SVG and PNG formats in separate folders."""
+    # Create output folders if they don't exist
+    for folder in [svg_folder, png_folder]:
+        if not os.path.exists(folder):
+            os.makedirs(folder)
 
     # List all .mmd files in the input folder
     mmd_files = [f for f in os.listdir(input_folder) if f.lower().endswith('.mmd')]
@@ -21,8 +22,8 @@ def convert_mmd_to_images(input_folder, output_folder):
         base_name = os.path.splitext(mmd_file)[0]
         
         # Define output paths for both formats
-        svg_path = os.path.join(output_folder, f"{base_name}.svg")
-        png_path = os.path.join(output_folder, f"{base_name}.png")
+        svg_path = os.path.join(svg_folder, f"{base_name}.svg")
+        png_path = os.path.join(png_folder, f"{base_name}.png")
         
         try:
             # Convert to SVG with improved settings
@@ -59,7 +60,8 @@ if __name__ == "__main__":
     # Define paths relative to the script location
     script_dir = os.path.dirname(os.path.abspath(__file__))
     input_folder = os.path.join(script_dir, "code")
-    output_folder = os.path.join(script_dir, "diagrams")
+    svg_folder = os.path.join(script_dir, "diagrams_svg")
+    png_folder = os.path.join(script_dir, "diagrams_png")
     
-    convert_mmd_to_images(input_folder, output_folder)
+    convert_mmd_to_images(input_folder, svg_folder, png_folder)
     print("Conversion complete!")
