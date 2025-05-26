@@ -1,0 +1,35 @@
+sequenceDiagram
+    participant User
+    participant System as UC_Uc1ControlEntry
+    participant AccessPoint
+    participant Camera
+
+    %% ❶ «timing Δ» — message arrives later
+    User  -->> UC_Uc1ControlEntry : reqReadSecurityCard  %% timing Δ
+    note over User,UC_Uc1ControlEntry: arrives later than required
+
+    %% ❷ «missing» — snapshot was NOT sent to camera
+    UC_Uc1ControlEntry -->> Camera : takeSnapshot  %% missing (pink)
+    note over UC_Uc1ControlEntry,Camera: message absent in recorded run
+
+    %% ❸ «args Δ» — CardStatus arg differs
+    UC_Uc1ControlEntry -->> UC_Uc1ControlEntry : validateSecurityCard(CardStatus = *Invalid*)  %% args Δ
+    note right of UC_Uc1ControlEntry: argument differs from required
+
+    UC_Uc1ControlEntry -->> User : displayCardStatus(CardStatus = Invalid)
+
+    %% Flow continues; assume same as required
+    User  ->> UC_Uc1ControlEntry : reqScanBiometricData
+    User  ->> UC_Uc1ControlEntry : scanBiometricData
+    UC_Uc1ControlEntry ->> UC_Uc1ControlEntry : authenticateBiometricData(AuthStatus = Authenticated)
+    UC_Uc1ControlEntry ->> User : displayAuthenticationStatus(AuthStatus = Authenticated)
+
+    %% ❹ «timing Δ» — unlock happens 1500 ms not 1000 ms
+    UC_Uc1ControlEntry ->> AccessPoint : logEntryData
+    UC_Uc1ControlEntry ->> AccessPoint : reqUnlockAccessPoint
+    AccessPoint -->> UC_Uc1ControlEntry : evAccessPointUnlocked  %% timing Δ
+    note right of AccessPoint: t = 1500 ms (vs 1000 ms)
+
+    %% ❺ «missing» — lock sequence not issued
+    UC_Uc1ControlEntry -->> AccessPoint : reqLockAccessPoint  %% missing
+    note over UC_Uc1ControlEntry,AccessPoint: lock request missing
