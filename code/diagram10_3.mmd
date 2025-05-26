@@ -3,17 +3,19 @@ sequenceDiagram
     participant System as UC_Uc2ControlExit
     participant Admin
 
-    User  ->> System : reqReadSecurityCard
-    System ->> System : readSecurityCard
-    loop repeat ≤3
-        System ->> System : validateSecurityCard(Invalid)
-        System ->> User   : displayCardStatus(Invalid)
+    loop attempt 1-3
+        User  ->> System  : reqReadSecurityCard
+        System ->> System : readSecurityCard
+        System ->> System : validateSecurityCard  (Invalid)
+        System ->> User   : displayCardStatus     (Invalid)
+
         alt ScFailCount < 3
-            User ->> System : reqReadSecurityCard (retry)
+            User ->> System : retry reqReadSecurityCard
         else ScFailCount >= 3
-            Admin -->> System : flagSecurityCardFailure
-            System -->> Admin : reqProcessAlert(type="Exit_Failure")
-            System -->> Admin : alarm
+            System ->> System : flagSecurityCardFailure
+            System ->> Admin  : disableUserAccount
+            System ->> Admin  : logAccountData
+            System ->> Admin  : alarm
             Admin  -->> System : resetAlarm
         end
     end

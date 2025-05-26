@@ -1,23 +1,27 @@
 sequenceDiagram
+    %% lifelines
     participant User
     participant System as UC_Uc2ControlExit
     participant AccessPoint
     participant Admin
 
-    par Time-limit monitor
-        Admin ->> System : checkForTimeLimitViolations(loop)
-        Note right of System: repeated while exit<br/>not complete
-    and Exit sequence
-        User  ->> System : reqReadSecurityCard
-        System ->> System : readSecurityCard
-        System ->> System : validateSecurityCard(CardStatus=Valid)
-        System ->> User   : displayCardStatus(Valid)
+    %% pre-condition
+    Note over System: Security System configured
 
-        System ->> System : logExitData
+    %% parallel regions
+    par Exit sequence
+        User  ->> System       : reqReadSecurityCard
+        System ->> System      : readSecurityCard
+        System ->> System      : validateSecurityCard  (CardStatus = Valid)
+        System ->> User        : displayCardStatus     (Valid)
+
+        System ->> System      : logExitData
         System ->> AccessPoint : reqUnlockAccessPoint
         AccessPoint -->> System : evAccessPointUnlocked
 
-        Note right of System: …wait 5000 ms…
+        Note right of System: wait 5 s
         System ->> AccessPoint : reqLockAccessPoint
         AccessPoint -->> System : evAccessPointLocked
+    and Time-limit monitor
+        Admin ->> System : checkForTimeLimitViolations  (loop)
     end
