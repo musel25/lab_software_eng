@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant User
+    participant System as UC_Uc1ControlEntry
+    participant AccessPoint
+    participant Camera
+
+    %% Nominal / required flow (all matches expected)
+    User  ->> UC_Uc1ControlEntry : reqReadSecurityCard
+    UC_Uc1ControlEntry ->> Camera : takeSnapshot
+    UC_Uc1ControlEntry ->> UC_Uc1ControlEntry : validateSecurityCard(CardStatus = Valid)
+    UC_Uc1ControlEntry ->> User   : displayCardStatus(CardStatus = Valid)
+
+    User  ->> UC_Uc1ControlEntry : reqScanBiometricData
+    User  ->> UC_Uc1ControlEntry : scanBiometricData
+    UC_Uc1ControlEntry ->> UC_Uc1ControlEntry : authenticateBiometricData(AuthStatus = Authenticated)
+    UC_Uc1ControlEntry ->> User   : displayAuthenticationStatus(AuthStatus = Authenticated)
+
+    UC_Uc1ControlEntry ->> AccessPoint : logEntryData
+    UC_Uc1ControlEntry ->> AccessPoint : reqUnlockAccessPoint
+    AccessPoint -->> UC_Uc1ControlEntry : evAccessPointUnlocked  %% returns after 1000 ms
+    Note right of AccessPoint: t = 1000 ms (timer)
+
+    %% locking again after 5 s
+    Note right of UC_Uc1ControlEntry: t = 5000 ms
+    UC_Uc1ControlEntry ->> AccessPoint : reqLockAccessPoint
+    AccessPoint -->> UC_Uc1ControlEntry : evAccessPointLocked
