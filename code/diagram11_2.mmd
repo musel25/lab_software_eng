@@ -1,0 +1,22 @@
+sequenceDiagram
+    participant User
+    participant System as UC_Uc2ControlExit
+    participant Admin
+
+    User ->> System : reqReadSecurityCard
+
+    loop up_to_3_attempts
+        System ->> System : readSecurityCard
+        System ->> System : validateSecurityCard
+        System ->> User   : displayCardStatus
+
+        alt more_attempts_allowed
+            User ->> System : retryReadSecurityCard
+        else three_failures
+            Admin -->> System : flagSecurityCardFailure
+            System -->> Admin : reqProcessAlert
+            System -->> Admin : alarm
+            Admin  -->> System: resetAlarm
+            break
+        end
+    end

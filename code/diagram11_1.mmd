@@ -1,0 +1,24 @@
+sequenceDiagram
+    %% lifelines
+    participant User
+    participant System as UC_Uc2ControlExit
+    participant AccessPoint
+    participant Admin
+
+    par Time-limit_monitor
+        loop repeat
+            Admin ->> System: checkForTimeLimitViolations
+        end
+    and Exit_sequence
+        User        ->> System      : reqReadSecurityCard
+        System      ->> System      : readSecurityCard
+        System      ->> System      : validateSecurityCard
+        System      ->> User        : displayCardStatus
+
+        System      ->> System      : logExitData
+        System      ->> AccessPoint : reqUnlockAccessPoint
+        AccessPoint -->> System     : evAccessPointUnlocked
+
+        System      ->> AccessPoint : reqLockAccessPoint
+        AccessPoint -->> System     : evAccessPointLocked
+    end
